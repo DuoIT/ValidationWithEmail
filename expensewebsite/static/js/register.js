@@ -20,14 +20,10 @@ const handleToggleInput = (e) => {
 
 showPasswordToggle.addEventListener("click", handleToggleInput)
 
-
 usernameField.addEventListener("keyup", (e) => {
     const usernameVal = e.target.value;
-
     usernameSuccessOutput.style.display = "block"
-
     usernameSuccessOutput.textContent = `Checking ${usernameVal}`
-
     usernameField.classList.remove("is-invalid")
     feebackArea.style.display = "none"
 
@@ -44,8 +40,7 @@ usernameField.addEventListener("keyup", (e) => {
                     feebackArea.style.display = "block"
                     feebackArea.innerHTML = `<p>${data.username_error}</p>`
                     submitBtn.disabled = true
-                }
-                else {
+                } else {
                     submitBtn.removeAttribute('disabled')
                 }
             })
