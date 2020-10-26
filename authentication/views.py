@@ -100,6 +100,7 @@ class VerificationView(View):
             return redirect('login')
         except Exception as ex:
             pass
+
         return redirect('login')
 
 
@@ -108,21 +109,32 @@ class LoginView(View):
         return render(request, 'authentication/login.html')
 
     def post(self, request):
-        email = request.POST['email']
+        username = request.POST['username']
         password = request.POST['password']
 
-        if email and password:
-            user = auth.authenticate(email=email, password=password)
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
 
             if user:
                 if user.is_active:
                     auth.login(request, user)
-                    messages.success(request, 'Welcome')
+                    messages.success(request, 'Welcome,' + user.username + 'you are now logged in')
+
                     return redirect('expenses')
-                messages.error(request, 'Account is not active, please check your email')
+                messages.error(
+                    request, 'Account is not active,please check your email')
                 return render(request, 'authentication/login.html')
-            messages.error(request, 'Invalid credentials, try again')
+            messages.error(
+                request, 'Invalid credentials, try again')
             return render(request, 'authentication/login.html')
 
-        messages.error(request, 'Please fill all fields')
+        messages.error(
+            request, 'Please fill all fields')
         return render(request, 'authentication/login.html')
+
+
+class LogoutView(View):
+    def post(self, request):
+        auth.logout(request)
+        messages.success(request, 'You have been logged out')
+        return redirect('login')
